@@ -28,7 +28,6 @@ sudo apt install kitty -y
 sudo apt install neovim -y
 sudo apt install tesseract-ocr-rus -y
 sudo apt install tesseract-ocr -y
-sudo apt install albert -y
 sudo apt install fastfetch -y
 sudo apt install btop -y
 sudo apt install bat -y
@@ -61,8 +60,10 @@ wget -P ~/Applications https://assets.msty.app/prod/latest/linux/amd64/Msty_x86_
 
 chmod +x ~/Applications/*.AppImage
 
+mkdir tmp
+
 # Download and install DEBs
-cd /tmp
+cd tmp
 wget https://github.com/TheAssassin/AppImageLauncher/releases/download/v2.2.0/appimagelauncher_2.2.0-travis995.0f91801.bionic_amd64.deb
 sudo dpkg -i appimagelauncher_2.2.0-travis995.0f91801.bionic_amd64.deb
 sudo apt install -f -y # Fix any dependencies
@@ -76,40 +77,38 @@ gsettings set com.github.stunkymonkey.nautilus-open-any-terminal terminal kitty
 sudo apt remove nautilus-extension-gnome-terminal
 nautilus -q
 
+
+wget https://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_24.10/amd64/albert_0.26.8-0+656.1_amd64.deb
+sudo dpkg -i albert_0.26.8-0+656.1_amd64.deb
+sudo apt install -f -y # Fix any dependencies
+
 # VS Code
-cd /tmp
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor >packages.microsoft.gpg
 sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
 echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/vscode.list >/dev/null
 rm -f packages.microsoft.gpg
-cd -
 
 sudo apt update -y
 sudo apt install -y code
 
 # lazydocker
-cd /tmp
 LAZYDOCKER_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazydocker/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
 curl -sLo lazydocker.tar.gz "https://github.com/jesseduffield/lazydocker/releases/latest/download/lazydocker_${LAZYDOCKER_VERSION}_Linux_x86_64.tar.gz"
 tar -xf lazydocker.tar.gz lazydocker
 sudo install lazydocker /usr/local/bin
 rm lazydocker.tar.gz lazydocker
-cd -
 
 # lazygit
-cd /tmp
 LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
 curl -sLo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
 tar -xf lazygit.tar.gz lazygit
 sudo install lazygit /usr/local/bin
 rm lazygit.tar.gz lazygit
-cd -
 
 # nerd font
 
 mkdir -p ~/.local/share/fonts
 
-cd /tmp
 wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/CascadiaMono.zip
 unzip CascadiaMono.zip -d CascadiaFont
 cp CascadiaFont/*.ttf ~/.local/share/fonts
@@ -143,7 +142,7 @@ sudo update-alternatives --config x-terminal-emulator
 
 chsh -s $(which zsh)
 
-
+cd ..
 
 cd dotfiles
 # Copy dotfiles to the home directory
@@ -152,13 +151,13 @@ cp -f .p10k.zsh .tmux.conf .zshrc ~/
 # Copy folders to the .config directory, replacing existing ones
 cp -rf flameshot kitty nvim ~/.config/
 
-cd -
+cd ..
 
 # Create desktop entries
 cd icons
 cp -f Activity.png Docker.png ~/Applications
 
-
+cd ..
 
 cat <<EOF >~/.local/share/applications/Docker.desktop
 [Desktop Entry]
@@ -223,7 +222,7 @@ EOF
 
 # this takes screenshots of screen regularly
 
-cd -
+cd ..
 cd scripts
 cp -f screen.sh ~/
 
@@ -245,8 +244,7 @@ EOF
 gsettings set org.gnome.desktop.interface monospace-font-name 'CaskaydiaMono Nerd Font 12'
 gsettings set org.gnome.desktop.calendar show-weekdate true
 gsettings set org.gnome.shell.extensions.dash-to-dock dock-position 'BOTTOM'
-gsettings set org.gnome.desktop.interface gtk-theme "Yaru-$blue-light"
-gsettings set org.gnome.desktop.interface icon-theme "Yaru-$blue"
+gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
 
 
 mkdir -p "~/Pictures/Wallpapers"
