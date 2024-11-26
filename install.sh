@@ -130,8 +130,7 @@ dockerd-rootless-setuptool.sh install
 
 
 
-curl https://raw.githubusercontent.com/ohmysh/ohmysh/main/install.sh > OMSInstaller.sh
-./OMSInstaller.sh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
 
@@ -222,9 +221,11 @@ EOF
 
 # this takes screenshots of screen regularly
 
-cd ..
+
 cd scripts
 cp -f screen.sh ~/
+cd ..
+
 
 chmod +x ~/screen.sh
 
