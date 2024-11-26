@@ -4,42 +4,42 @@
 
 # Add repositories
 sudo add-apt-repository -y ppa:neovim-ppa/stable
-sudo add-apt-repository -y ppa:zhangsongcui3371/fastfetch
+# sudo add-apt-repository -y ppa:zhangsongcui3371/fastfetch
 sudo add-apt-repository -y ppa:flexiondotorg/quickemu
 
 # Update after adding repos
 sudo apt update
 
 # Install apt packages
-sudo apt install -y \
-    qbittorrent \
-    gparted \
-    git \
-    timeshift \
-    fzf \
-    ripgrep \
-    bat \
-    xclip \
-    cmake \
-    gnome-tweaks \
-    zsh \
-    vlc \
-    kitty \
-    neovim \
-    tesseract-ocr-rus \
-    tesseract-ocr \
-    albert \
-    fastfetch \
-    btop \
-    bat \
-    build-essential \
-    ffmpeg \
-    gnome-tweaks \
-    chromium-browser \
-    flameshot \
-    python3-dev \
-    tmux \
-    quickemu
+sudo apt install curl -y
+sudo apt install qbittorrent -y
+sudo apt install gparted -y
+sudo apt install git -y
+sudo apt install timeshift -y
+sudo apt install fzf -y
+sudo apt install ripgrep -y
+sudo apt install bat -y
+sudo apt install xclip -y
+sudo apt install cmake -y
+sudo apt install gnome-tweaks -y
+sudo apt install zsh -y
+sudo apt install vlc -y
+sudo apt install kitty -y
+sudo apt install neovim -y
+sudo apt install tesseract-ocr-rus -y
+sudo apt install tesseract-ocr -y
+sudo apt install albert -y
+sudo apt install fastfetch -y
+sudo apt install btop -y
+sudo apt install bat -y
+sudo apt install build-essential -y
+sudo apt install ffmpeg -y
+sudo apt install gnome-tweaks -y
+sudo apt install chromium-browser -y
+sudo apt install flameshot -y
+sudo apt install python3-dev -y
+sudo apt install tmux -y
+sudo apt install quickemu -y
 
 # Install Flatpak and add Flathub
 sudo apt install flatpak -y
@@ -50,8 +50,9 @@ flatpak install flathub dev.zed.Zed
 flatpak install -y flathub md.obsidian.Obsidian
 flatpak install flathub org.telegram.desktop
 flatpak install flathub org.kde.krita
-flatpak install flathub com.visualstudio.code
 
+# Snaps
+sudo snap install bitwarden
 
 # Create directory for AppImages and download them
 mkdir -p ~/.apps
@@ -125,13 +126,31 @@ dockerd-rootless-setuptool.sh install
 git config --global user.email "git@bogdart.com"
 git config --global user.name "Art Bogdanov"
 
-.files
-#flameshot
-#zsh
-#ohmysh
-#p10k
+curl https://raw.githubusercontent.com/ohmysh/ohmysh/main/install.sh > OMSInstaller.sh
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+
+
+
+
+#select kitty here
+sudo update-alternatives --config x-terminal-emulator
+
+
+# compile alternative terminal
+git clone https://github.com/Stunkymonkey/nautilus-open-any-terminal.git
+cd nautilus-open-any-terminal
+sudo apt-get install gettext -y
+make
+sudo make install schema
+nautilus -q
+gsettings set com.github.stunkymonkey.nautilus-open-any-terminal terminal kitty
+nautilus -q
+sudo apt remove nautilus-extension-gnome-terminal
 
 
 # Copy dot files
-cp -r ~/dotfiles/.config ~/.config
-cp ~/dotfiles/.bashrc ~/.bashrc
+# Copy dotfiles to the home directory
+cp -f .p10k.zsh .tmux.conf .zshrc ~/
+
+# Copy folders to the .config directory, replacing existing ones
+cp -rf flameshot kitty nvim ~/.config/
