@@ -117,6 +117,10 @@ fc-cache -f
 
 
 # Run shell scripts
+
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+
 curl -fsSL https://ollama.com/install.sh | sh
 curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -125,14 +129,6 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 sudo apt-get install -y uidmap
 dockerd-rootless-setuptool.sh install
-
-
-
-
-
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-
 
 
 
