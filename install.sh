@@ -40,6 +40,7 @@ sudo apt install flameshot -y
 sudo apt install python3-dev -y
 sudo apt install tmux -y
 sudo apt install quickemu -y
+sudo apt install gnome-sushi -y
 
 # Install Flatpak and add Flathub
 sudo apt install flatpak -y
@@ -55,11 +56,10 @@ flatpak install flathub org.kde.krita
 sudo snap install bitwarden
 
 # Create directory for AppImages and download them
-mkdir -p ~/.apps
-wget -P ~/.apps https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=appimage
-wget -P ~/.apps https://assets.msty.app/prod/latest/linux/amd64/Msty_x86_64_amd64.AppImage
+mkdir -p ~/Applications
+wget -P ~/Applications https://assets.msty.app/prod/latest/linux/amd64/Msty_x86_64_amd64.AppImage
 
-chmod +x ~/.apps/*.AppImage
+chmod +x ~/Applications/*.AppImage
 
 # Download and install DEBs
 cd /tmp
@@ -67,7 +67,14 @@ wget https://github.com/TheAssassin/AppImageLauncher/releases/download/v2.2.0/ap
 sudo dpkg -i appimagelauncher_2.2.0-travis995.0f91801.bionic_amd64.deb
 sudo apt install -f -y # Fix any dependencies
 
-
+sudo apt install python3-nautilus -y
+sudo apt install gir1.2-gtk-4.0 -y
+wget https://github.com/Stunkymonkey/nautilus-open-any-terminal/releases/download/0.6.0/nautilus-extension-any-terminal_0.6.0-1_all.deb
+sudo dpkg -i nautilus-extension-any-terminal_0.6.0-1_all.deb
+sudo apt install -f -y # Fix any dependencies
+gsettings set com.github.stunkymonkey.nautilus-open-any-terminal terminal kitty
+sudo apt remove nautilus-extension-gnome-terminal
+nautilus -q
 
 # VS Code
 cd /tmp
@@ -123,10 +130,9 @@ dockerd-rootless-setuptool.sh install
 
 
 
-git config --global user.email "git@bogdart.com"
-git config --global user.name "Art Bogdanov"
 
 curl https://raw.githubusercontent.com/ohmysh/ohmysh/main/install.sh > OMSInstaller.sh
+./OMSInstaller.sh
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
 
@@ -135,22 +141,116 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$
 #select kitty here
 sudo update-alternatives --config x-terminal-emulator
 
-
-# compile alternative terminal
-git clone https://github.com/Stunkymonkey/nautilus-open-any-terminal.git
-cd nautilus-open-any-terminal
-sudo apt-get install gettext -y
-make
-sudo make install schema
-nautilus -q
-gsettings set com.github.stunkymonkey.nautilus-open-any-terminal terminal kitty
-nautilus -q
-sudo apt remove nautilus-extension-gnome-terminal
+chsh -s $(which zsh)
 
 
-# Copy dot files
+
+cd dotfiles
 # Copy dotfiles to the home directory
 cp -f .p10k.zsh .tmux.conf .zshrc ~/
 
 # Copy folders to the .config directory, replacing existing ones
 cp -rf flameshot kitty nvim ~/.config/
+
+cd -
+
+# Create desktop entries
+cd icons
+cp -f Activity.png Docker.png ~/Applications
+
+
+
+cat <<EOF >~/.local/share/applications/Docker.desktop
+[Desktop Entry]
+Version=1.0
+Name=Docker
+Comment=Manage Docker containers with LazyDocker
+Exec=kitty --class=Docker --title=Docker -e lazydocker
+Terminal=false
+Type=Application
+Icon=/home/$USER/Applications/Docker.png
+Categories=GTK;
+StartupNotify=false
+EOF
+
+
+
+cat <<EOF > ~/.local/share/applications/Activity.desktop
+[Desktop Entry]
+Version=1.0
+Name=Activity
+Comment=System activity from btop
+Exec=kitty --class=Activity --title=Activity -e btop
+Terminal=false
+Type=Application
+Icon=/home/$USER/Applications/Activity.png
+Categories=GTK;
+StartupNotify=false
+EOF
+
+
+
+sudo rm -rf /usr/share/applications/nvim.desktop
+cat <<EOF > ~/.local/share/applications/Neovim.desktop
+[Desktop Entry]
+Version=1.0
+Name=Neovim
+Comment=Edit text files
+Exec=kitty --class=Neovim --title=Neovim -e nvim %F
+Terminal=false
+Type=Application
+Icon=nvim
+Categories=Utilities;TextEditor;
+StartupNotify=false
+EOF
+
+
+# startup apps
+AUTOSTART_DIR="$HOME/.config/autostart"
+mkdir -p "$AUTOSTART_DIR"
+ALBERT_AUTOSTART_FILE="$AUTOSTART_DIR/albert.desktop"
+
+cat <<EOF > "$ALBERT_AUTOSTART_FILE"
+[Desktop Entry]
+Type=Application
+Exec=albert
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name=Albert
+Comment=Launch Albert on startup
+EOF
+
+# this takes screenshots of screen regularly
+
+cd -
+cd scripts
+cp -f screen.sh ~/
+
+chmod +x ~/screen.sh
+
+cat <<EOF > ~/.config/autostart/screenshot-script.desktop
+[Desktop Entry]
+Type=Application
+Exec=sh -c "/home/$USER/screen.sh &"
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name=Screenshot Script
+Comment=Run the screenshot script at startup in background
+EOF
+
+
+
+gsettings set org.gnome.desktop.interface monospace-font-name 'CaskaydiaMono Nerd Font 12'
+gsettings set org.gnome.desktop.calendar show-weekdate true
+gsettings set org.gnome.shell.extensions.dash-to-dock dock-position 'BOTTOM'
+gsettings set org.gnome.desktop.interface gtk-theme "Yaru-$blue-light"
+gsettings set org.gnome.desktop.interface icon-theme "Yaru-$blue"
+
+
+mkdir -p "~/Pictures/Wallpapers"
+
+cp icons/disco.png ~/Pictures/Wallpapers/
+gsettings set org.gnome.desktop.background picture-uri ~/Pictures/Wallpapers/disco.png
+gsettings set org.gnome.desktop.background picture-options 'zoom'

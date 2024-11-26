@@ -190,12 +190,16 @@ function note_zed(){
 }
 
 
-# Automatically start tmux if not already inside tmux
-# if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
-#   tmux
-# fi
+Automatically start tmux if not already inside tmux
+if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+  tmux
+fi
 
-
+update_all() {
+    sudo apt update && sudo apt upgrade -y
+    flatpak update -y
+    sudo snap refresh
+}
 
 # Directories
 alias ..='cd ..'
