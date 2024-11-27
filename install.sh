@@ -118,7 +118,9 @@ fc-cache -f
 
 # Run shell scripts
 
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+# ohmyzsh exits the whole installation, so run in subwindow
+gnome-terminal -- sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+read -p "Press enter after ohmyzsh finishes installing"
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
 curl -fsSL https://ollama.com/install.sh | sh
@@ -244,7 +246,7 @@ gsettings set org.gnome.shell.extensions.dash-to-dock dock-position 'BOTTOM'
 gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
 
 
-mkdir -p "~/Pictures/Wallpapers"
+mkdir -p ~/Pictures/Wallpapers
 
 cp icons/disco.png ~/Pictures/Wallpapers/
 gsettings set org.gnome.desktop.background picture-uri ~/Pictures/Wallpapers/disco.png
