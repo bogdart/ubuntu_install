@@ -264,4 +264,4 @@ gsettings set org.gnome.desktop.background picture-uri ~/Pictures/Wallpapers/dis
 gsettings set org.gnome.desktop.background picture-options 'zoom'
 
 
-echo "walpaper applied"
+echo "wallpaper applied"
