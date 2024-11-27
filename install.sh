@@ -244,7 +244,7 @@ gsettings set org.gnome.desktop.interface monospace-font-name 'CaskaydiaMono Ner
 gsettings set org.gnome.desktop.calendar show-weekdate true
 gsettings set org.gnome.shell.extensions.dash-to-dock dock-position 'BOTTOM'
 gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
-
+gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'ru')]"
 
 mkdir -p ~/Pictures/Wallpapers
 
