@@ -148,6 +148,7 @@ cd dotfiles
 cp -f .p10k.zsh .tmux.conf .zshrc ~/
 
 # Copy folders to the .config directory, replacing existing ones
+rm -rf ~/.config/flameshot ~/.config/kitty ~/.config/nvim
 cp -rf flameshot kitty nvim ~/.config/
 
 cd ..
