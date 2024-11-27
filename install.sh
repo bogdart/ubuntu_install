@@ -151,6 +151,9 @@ cp -f .p10k.zsh .tmux.conf .zshrc ~/
 rm -rf ~/.config/flameshot ~/.config/kitty ~/.config/nvim
 cp -rf flameshot kitty nvim ~/.config/
 
+
+echo "dotfiles copied"
+
 cd ..
 
 # Create desktop entries
@@ -203,6 +206,7 @@ Categories=Utilities;TextEditor;
 StartupNotify=false
 EOF
 
+echo "desktop entries created"
 
 # startup apps
 AUTOSTART_DIR="$HOME/.config/autostart"
@@ -241,6 +245,7 @@ Name=Screenshot Script
 Comment=Run the screenshot script at startup in background
 EOF
 
+echo "startup entries created"
 
 
 gsettings set org.gnome.desktop.interface monospace-font-name 'CaskaydiaMono Nerd Font 12'
@@ -249,8 +254,14 @@ gsettings set org.gnome.shell.extensions.dash-to-dock dock-position 'BOTTOM'
 gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
 gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'ru')]"
 
+echo "gnome setting applied"
+
+
 mkdir -p ~/Pictures/Wallpapers
 
 cp icons/disco.png ~/Pictures/Wallpapers/
 gsettings set org.gnome.desktop.background picture-uri ~/Pictures/Wallpapers/disco.png
 gsettings set org.gnome.desktop.background picture-options 'zoom'
+
+
+echo "walpaper applied"
