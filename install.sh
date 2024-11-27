@@ -40,6 +40,11 @@ sudo apt install python3-dev -y
 sudo apt install tmux -y
 sudo apt install quickemu -y
 sudo apt install gnome-sushi -y
+sudo apt install gnome-screenshot -y
+sudo apt install python3-tk -y
+sudo apt install rubberband-cli -y
+sudo apt install libavcodec-extra -y
+sudo apt install poppler-utils -y
 
 # Install Flatpak and add Flathub
 sudo apt install flatpak -y
