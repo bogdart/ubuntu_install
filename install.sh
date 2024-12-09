@@ -45,6 +45,10 @@ sudo apt install python3-tk -y
 sudo apt install rubberband-cli -y
 sudo apt install libavcodec-extra -y
 sudo apt install poppler-utils -y
+sudo apt install aptitude -y
+sudo apt install grub-customizer -y
+sudo apt install rclone -y
+
 
 # Install Flatpak and add Flathub
 sudo apt install flatpak -y
@@ -55,6 +59,7 @@ flatpak install flathub dev.zed.Zed
 flatpak install -y flathub md.obsidian.Obsidian
 flatpak install flathub org.telegram.desktop
 flatpak install flathub org.kde.krita
+flatpak install flathub com.discordapp.Discord
 
 # Snaps
 sudo snap install bitwarden
