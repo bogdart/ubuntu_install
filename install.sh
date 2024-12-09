@@ -275,3 +275,36 @@ gsettings set org.gnome.desktop.background picture-options 'zoom'
 
 
 echo "wallpaper applied"
+
+
+# Function to prompt for input
+get_input() {
+    local prompt="$1"
+    local variable="$2"
+    read -p "$prompt" $variable
+}
+
+# Ask for name and email
+get_input "Enter your full name: " name
+get_input "Enter your email address: " email
+
+# Configure Git
+git config --global user.name "$name"
+git config --global user.email "$email"
+
+echo "Git configured successfully."
+
+# Generate SSH key
+echo "Generating new SSH key..."
+ssh-keygen -t ed25519 -C "$email"
+
+# Start the ssh-agent in the background
+eval "$(ssh-agent -s)"
+
+# Add the SSH key to the ssh-agent
+ssh-add ~/.ssh/id_ed25519
+
+echo "SSH key generated and added to ssh-agent."
+echo "Your public key is:"
+cat ~/.ssh/id_ed25519.pub
+echo "You may now add this public key to your GitHub account."
