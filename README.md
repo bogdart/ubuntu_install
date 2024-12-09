@@ -4,3 +4,4 @@ To fix:
 - debs didn't download
 - discrepancies in zsh
 - dot files errors and latest changes
+- standard terminal in nautilus
